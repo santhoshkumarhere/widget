@@ -1,7 +1,7 @@
-
 const body =  document.getElementsByTagName("BODY")[0];
 const modal = document.getElementById("myModal");
 const companyName = document.getElementById('company-name');
+const customerId = document.getElementById('customer-id').value;
 const discountButtonImageName = document.getElementById('button-name');
 const discountButtonImages = {
   "bogo": "url('./img/bogo.png')",
@@ -9,6 +9,25 @@ const discountButtonImages = {
   "tenPercent": "url('./img/tenPercent.png')",
   "percentOff": "url('./img/percentOff.png')"
 };
+
+const isCustomerIdExists = () => {
+     return axios.get('https://api.unsplash.com/search/photos', { //azure customerid check url
+        params: { query: 'car' },
+        headers: {
+          Authorization: 'Client-ID hynJ1zFf-q2AvpzrXyJKty8YY7_eXQhoq40aOACkMBs' //bearer token here
+        }
+      }).then(response => {
+         return response.data.results;
+       }).catch(error => console.error(error));
+}
+
+isCustomerIdExists().then( data => {
+  if(data) {
+    createDiscountButton();
+  } else{
+    window.alert("Invalid customer id!");
+  }
+});
 
 const createDiscountButton = () => {
   let discountButton = document.createElement("BUTTON");   // Create a <button> element
@@ -53,7 +72,6 @@ const closeModalWindow = () => {
   }
 }
 
-createDiscountButton();
 createModalForm();
 closeModalWindow();
 

@@ -1,0 +1,1 @@
+Copy the path of index.html and open it up in browser
